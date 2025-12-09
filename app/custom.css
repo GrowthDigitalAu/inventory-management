@@ -1,0 +1,27 @@
+/* Custom CSS */
+
+/* Prevent layout shift and flickering on page load */
+s-page {
+    display: block;
+    min-height: 100vh;
+}
+
+s-section {
+    display: block;
+    min-height: 100px;
+}
+
+s-box {
+    display: block;
+}
+
+s-select {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Ensure smooth rendering */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
