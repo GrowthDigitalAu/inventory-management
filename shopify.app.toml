@@ -2,7 +2,7 @@
 
 client_id = "a7ddf8f98a8be987381c5fa1f8fb765e"
 name = "Inventory Management"
-application_url = "https://example.com"
+application_url = "https://inventory-management-gdum.onrender.com"
 embedded = true
 
 [build]
@@ -24,4 +24,8 @@ api_version = "2026-01"
 scopes = "read_products, write_products, read_inventory, write_inventory, read_locations, write_locations"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+    "https://inventory-management-gdum.onrender.com/auth/callback",
+    "https://inventory-management-gdum.onrender.com/auth/shopify/callback",
+    "https://inventory-management-gdum.onrender.com/api/auth/callback"
+]
