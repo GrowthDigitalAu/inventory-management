@@ -258,11 +258,13 @@ export default function ExportProductData() {
                     >
                         <s-option value="SELECT_LOCATION" disabled>- Select -</s-option>
                         <s-option value="ALL_LOCATIONS">All Locations</s-option>
-                        {locations.map((location) => (
-                            <s-option key={location.id} value={location.id}>
-                                {location.name}
-                            </s-option>
-                        ))}
+                        <s-option-group label="Available Store Locations">
+                            {locations.map((location) => (
+                                <s-option key={location.id} value={location.id}>
+                                    {location.name}
+                                </s-option>
+                            ))}
+                        </s-option-group>
                     </s-select>
                     <s-button
                         variant="primary"
