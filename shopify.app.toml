@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "a7ddf8f98a8be987381c5fa1f8fb765e"
-name = "Inventory Management"
+name = "GD InventoryPro"
 application_url = "https://inventory-management-gdum.onrender.com"
 embedded = true
 
