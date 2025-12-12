@@ -27,7 +27,7 @@ export default function App() {
         <a href="/app/import-product-data">Import product Inventory Data</a>
         <a href="/app/export-product-data">Export product Inventory Data</a>
         {/* <a href="/app/scheduled-import">Scheduled Import</a> */}
-        <a href="/app/settings">Settings</a>
+        {/* <a href="/app/settings">Settings</a> */}
       </NavMenu>
       <PolarisAppProvider i18n={enTranslations}>
         <Outlet />
