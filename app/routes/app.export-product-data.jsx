@@ -434,16 +434,20 @@ export default function ExportProductData() {
         if (isProgressVisible && currentExport) {
             const interval = setInterval(() => {
                 setProgress((prev) => {
-                    if (prev < 90) return prev + 5;
+                    // Gradual increments to avoid "rushing" to 90%
+                    if (prev < 30) return prev + 5; 
+                    if (prev < 60) return prev + 2; 
+                    if (prev < 90) return prev + 1; 
                     return prev;
                 });
-            }, 500);
+            }, 800);
             return () => clearInterval(interval);
         }
     }, [isProgressVisible, currentExport]);
 
 
     const handleExport = () => {
+        setProgress(0);
         setIsProgressVisible(true);
         fetcher.submit(
             { locationId: selectedLocation },
@@ -499,7 +503,7 @@ export default function ExportProductData() {
                     <div style={{ width: '100%' }}>
                         <ProgressBar progress={progress} size="small" />
                     </div>
-                    <s-text variant="bodyLg">Exporting products... {pollFetcher.data?.progress ? `(${pollFetcher.data.progress} objects)` : ''}</s-text>
+                    <s-text variant="bodyLg">Exporting products...</s-text>
                 </div>
             )}
         </s-page>
