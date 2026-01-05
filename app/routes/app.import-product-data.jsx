@@ -474,11 +474,8 @@ export default function ImportProductData() {
                     }
                 });
                 setParsedData(jsonData);
-                if (!selectedLocation) {
-                    shopify.toast.show("Please select a location first");
-                    return;
-                }
-                shopify.toast.show(`File loaded: ${jsonData.length} rows. Starting analysis & import...`);
+                shopify.toast.show("Please select a location first", { duration: 5000 });
+                shopify.toast.show(`File loaded: ${jsonData.length} rows. Starting import...`, { duration: 5000 });
                 // Start Progress for Analysis Phase
                 setIsProgressVisible(true);
                 setProgress(10); 
@@ -490,7 +487,7 @@ export default function ImportProductData() {
 
     const handleButtonClick = () => {
         if (!selectedLocation) {
-             shopify.toast.show("Please select a location first");
+             shopify.toast.show("Please select a location first", { duration: 5000 });
              return;
         }
         if (fileInputRef.current) fileInputRef.current.click();
@@ -510,7 +507,7 @@ export default function ImportProductData() {
                 setFinalResults(res); 
                 setProgress(100);
                 setTimeout(() => setIsProgressVisible(false), 2000);
-                shopify.toast.show(`Import complete. ${res.updated} updated.`);
+                shopify.toast.show(`Import complete.`, { duration: 5000 });
             }
         }
     }, [fetcher.data, fetcher.state]);
@@ -540,10 +537,10 @@ export default function ImportProductData() {
                        };
                        setFinalResults(merged);
                        setProgress(100);
-                       shopify.toast.show(`Import complete. ${merged.updated} updated.`);
+                       shopify.toast.show(`Import complete. ${merged.updated} updated.`, { duration: 5000 });
                        setTimeout(() => setIsProgressVisible(false), 2000);
                   } else if (pollFetcher.data.status === "FAILED") {
-                       shopify.toast.show("Background update failed.");
+                       shopify.toast.show("Background update failed.", { duration: 5000 });
                        setIsProgressVisible(false);
                   }
              }
@@ -553,14 +550,25 @@ export default function ImportProductData() {
     // --- PROGRESS UI ---
     useEffect(() => {
         if (isLoading) {
+             // Analysis Phase: Fast start, then smooth crawl
              const interval = setInterval(() => {
-                setProgress((prev) => (prev < 60 ? prev + 5 : prev));
-            }, 500);
+                setProgress((prev) => {
+                    if (prev < 30) return prev + 2;
+                    if (prev < 60) return prev + 0.5;
+                    if (prev < 90) return prev + 0.05;
+                    return prev;
+                });
+            }, 100);
             return () => clearInterval(interval);
         } else if (validatedResults?.bulkOperationId && !finalResults) {
+             // Bulk Processing Phase (Polling)
              const interval = setInterval(() => {
-                setProgress((prev) => (prev < 90 ? prev + 1 : prev));
-            }, 1000);
+                setProgress((prev) => {
+                     if (prev < 80) return prev + 1;
+                     if (prev < 95) return prev + 0.1; 
+                     return prev;
+                });
+            }, 500);
             return () => clearInterval(interval);
         }
     }, [isLoading, validatedResults, finalResults]);
@@ -625,7 +633,7 @@ export default function ImportProductData() {
                 }}>
                     <ProgressBar progress={progress} size="small" />
                     <s-text variant="bodyLg">
-                         {validatedResults?.bulkOperationId && !finalResults ? "Processing updates..." : "Analyzing file..."}
+                         {validatedResults?.bulkOperationId && !finalResults ? "Processing updates..." : "Importing product inventory..."}
                     </s-text>
                 </div>
             )}

@@ -361,12 +361,12 @@ export default function ExportProductData() {
             
             setIsProgressVisible(true);
             setProgress(0);
-            shopify.toast.show("Export started...");
+            shopify.toast.show("Export started...", { duration: 5000 });
             
             // Immediate check
             pollFetcher.load(`/app/export-product-data?checkStatus=true&locationId=${locId}&operationId=${opId}`);
         } else if (fetcher.data?.error) {
-            shopify.toast.show(fetcher.data.error);
+            shopify.toast.show(fetcher.data.error, { duration: 5000 });
             setIsProgressVisible(false);
         }
     }, [fetcher.data]);
@@ -406,7 +406,7 @@ export default function ExportProductData() {
                         a.download = "products_export.xlsx";
                         a.click();
                         URL.revokeObjectURL(url);
-                        shopify.toast.show("Export complete");
+                        shopify.toast.show("Export complete", { duration: 5000 });
                         
                         const timeout = setTimeout(() => {
                             setIsProgressVisible(false);
@@ -415,14 +415,14 @@ export default function ExportProductData() {
 
                     }).catch(err => {
                         console.error(err);
-                        shopify.toast.show("Export failed generation");
+                        shopify.toast.show("Export failed generation", { duration: 5000 });
                         setIsProgressVisible(false);
                     });
                     
                 } else if (pollFetcher.data?.status === "FAILED" || pollFetcher.data?.status === "NONE") {
                     setCurrentExport(null);
                     setIsProgressVisible(false);
-                    shopify.toast.show("Export failed: " + (pollFetcher.data?.error || "Unknown error"));
+                    shopify.toast.show("Export failed: " + (pollFetcher.data?.error || "Unknown error"), { duration: 5000 });
                 }
             }
         }
@@ -503,7 +503,7 @@ export default function ExportProductData() {
                     <div style={{ width: '100%' }}>
                         <ProgressBar progress={progress} size="small" />
                     </div>
-                    <s-text variant="bodyLg">Exporting products...</s-text>
+                    <s-text variant="bodyLg">Exporting product inventory...</s-text>
                 </div>
             )}
         </s-page>
